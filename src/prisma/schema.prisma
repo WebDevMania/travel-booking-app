@@ -1,0 +1,67 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    username  String   @unique
+    email     String   @unique
+    password  String
+    isAdmin   Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    reservations Reservation[]
+    reviews      Review[]
+}
+
+model Listing {
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    name          String
+    location      String
+    type          String
+    desc          String
+    pricePerNight Float
+    beds          Int
+    hasFreeWifi   Boolean
+    imageUrls     String[]
+
+    reviews      Review[]
+    reservations Reservation[]
+}
+
+model Reservation {
+    id             String   @id @default(auto()) @map("_id") @db.ObjectId
+    startDate      DateTime
+    endDate        DateTime
+    chargeId       String
+    daysDifference Int
+    reservedDates  Int[]    @default([])
+
+    listingId String @db.ObjectId
+    userId    String @db.ObjectId
+
+    listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    text String
+    stars Int
+
+    listingId String @db.ObjectId
+    userId String @db.ObjectId
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

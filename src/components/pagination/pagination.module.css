@@ -1,0 +1,40 @@
+.pagination {
+    margin-top: 3.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    height: 75px;
+    position: relative;
+    width: 100%;
+    user-select: none;
+}
+
+.item {
+    margin: 0 0.25rem;
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.active {
+    border: solid 1px #3b82f6;
+    scale: 1.05;
+    font-size: 20px;
+}
+
+.nextArrow {
+    border-left: 1px solid #3b82f6;
+    position: absolute;
+    right: 0;
+}
+
+.previousArrow {
+    border-right: 1px solid #fff;
+    position: absolute;
+    left: 0;
+}
